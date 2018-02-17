@@ -12,6 +12,8 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    @all_ratings = Movie.all_ratings
+    @checked_ratings = params[:ratings].nil? ? @all_ratings : params[:ratings].keys
     @sort =   params[:sort_by]
     @sort ||= 'id'   # initialize the sorting
     if @sort == 'title'
@@ -21,7 +23,9 @@ class MoviesController < ApplicationController
       @title_hilite = ''          # can be removed, but why?
       @release_date_hilite = 'hilite'
     end
-    @movies = Movie.order(@sort + ' ASC')
+#    @movies = Movie.where(:rating => @checked_ratings).order(params[:sort]) 
+
+    @movies = Movie.where(:rating=>@checked_ratings).order(@sort + ' ASC')
 
 
 #    @movies = Movie.all
