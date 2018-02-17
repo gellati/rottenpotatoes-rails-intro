@@ -12,6 +12,21 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    @sort =   params[:sort_by]
+    @sort ||= 'id'   # initialize the sorting
+    if @sort == 'title'
+      @title_hilite = 'hilite'
+      @release_date_hilite = ''  # can be removed, but why?
+    elsif @sort == 'release_date'
+      @title_hilite = ''          # can be removed, but why?
+      @release_date_hilite = 'hilite'
+    end
+    @movies = Movie.order(@sort + ' ASC')
+
+
+#    @movies = Movie.all
+#    @movies = Movie.where('title LIKE (?)', 'A%') #all that start with A
+#    @movies = Movie.order('title ASC')  # order(params[:sort])
   end
 
   def new
