@@ -12,9 +12,19 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
+    session[:sort_by] = params[:sort_by] if params[:sort_by]
+    session[:ratings] = params[:ratings] if params[:ratings]
+#    @title = 'hilite' if session[:sort] == 'title'
+#    @release_date = 'hilite' if session[:sort] == 'release_date'
+
+    if session[:sort_by] != params[:sort_by] || session[:ratings] != params[:ratings]
+      flash.keep
+      redirect_to movies_path(:sort_by => session[:sort_by], :ratings => session[:ratings])
+    end
+
     @all_ratings = Movie.all_ratings
-    @checked_ratings = params[:ratings].nil? ? @all_ratings : params[:ratings].keys
-    @sort =   params[:sort_by]
+    @checked_ratings = session[:ratings].nil? ? @all_ratings : session[:ratings].keys
+    @sort =   session[:sort_by]
     @sort ||= 'id'   # initialize the sorting
     if @sort == 'title'
       @title_hilite = 'hilite'
@@ -23,7 +33,7 @@ class MoviesController < ApplicationController
       @title_hilite = ''          # can be removed, but why?
       @release_date_hilite = 'hilite'
     end
-#    @movies = Movie.where(:rating => @checked_ratings).order(params[:sort]) 
+#    @movies = Movie.where(:rating => @checked_ratings).order(params[:sort])
 
     @movies = Movie.where(:rating=>@checked_ratings).order(@sort + ' ASC')
 
