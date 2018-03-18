@@ -25,3 +25,23 @@ directory.
 0. Run `rails server -p $PORT -b $IP` to start the app.  Cloud9 will pop
 up a window showing the URL to visit in your browser to interact with
 the running app.
+
+
+## Running locally
+
+Setup the app with
+
+    bundle exec rake db:setup
+
+Then run it locally
+
+    rails server -p 8080 -b 0.0.0.0
+
+
+Notes on ActiveRecord [here](https://apidock.com/rails/ActiveRecord/QueryMethods/order), [here](https://stackoverflow.com/questions/1278510/sort-array-returned-by-activerecord-by-date-or-any-other-column
+), [here](https://stackoverflow.com/questions/19780148/how-to-sort-movies-alphabetically-in-rails
+), and [here](https://stackoverflow.com/questions/13529804/how-to-use-wildcards-in-an-active-record-where-clause-while-protecting-against-s
+). 
+
+
+
